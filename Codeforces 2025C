@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+#define all(a) (a).begin(),(a).end()
+#define optimize ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define pb push_back
+using namespace std;
+typedef long long ll;
+void solve()
+{
+    int n,k;
+    cin>>n>>k;
+    vector<ll> a(n);
+    map<ll,ll> mapa;
+    for(int i=0;i<n;++i) {
+        cin>>a[i];
+        mapa[a[i]]++;
+    }
+    vector<ll> keys;
+    for(auto &[key, value]: mapa)
+        keys.pb(key);
+    ll maxSum=0, sum=0, left=0;
+    for (int i=0;i< keys.size();i++){
+        if (i>0 && keys[i]!=keys[i-1]+1) {
+            left=i;
+            sum=0;
+        }
+        sum += mapa[keys[i]];
+        if (i-left+1 > k) {
+            sum-=mapa[keys[left]];
+            left++;
+        }
+        maxSum=max(maxSum, sum);
+    }
+    cout<<maxSum<<"\n";
+}
+int main()
+{
+    optimize;
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        solve();
+    }
+}
